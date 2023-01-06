@@ -1,12 +1,21 @@
-keylogger-rs
+# skynet
 
-listen to keyboard event, and save them to `/tmp/key.log`.
+listen to keyboard events, save them to `/tmp/key.log`.
 
-usage:
+## Usage:
 
-cargo build --release
+### docker
 
-sudo ./target/release/skynet &
+`docker build -t skynet .`
 
-watch -n 1 sudo cat /tmp/key.log
+```
 
+docker run -d -v /tmp:/tmp/ \
+      --userns=host  \
+      --privileged -v \
+      /dev/input/by-path/platform-i8042-serio-0-event-kbd:/dev/input/by-path/platform-i8042-serio-0-event-kbd \
+      skynet
+
+```
+
+`watch -n 1 less /tmp/key.log`
